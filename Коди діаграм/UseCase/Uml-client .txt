@@ -1,0 +1,20 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor User
+actor Server
+rectangle {
+ User --> (log in)
+ (log in) <.left. (register): extend
+ User --> (select course)
+  (select course).right.>(select specialty):include
+  (select specialty).right.> (select university):include
+  (select university).right.>(select city):include
+  (select course)<.left.(search name):extend
+  (select course)<.left.(search group):extend
+ User --> (exit)
+  (select course) -->Server
+(log in) -down-> Server
+(exit) -down-> Server
+ }
+@enduml

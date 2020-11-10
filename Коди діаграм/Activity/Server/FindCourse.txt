@@ -1,0 +1,7 @@
+@startuml
+title Find the course
+(*) -->receiving a request\n for a list of course
+-->creating a list of course
+-->send a list of course
+-->(*)
+@enduml

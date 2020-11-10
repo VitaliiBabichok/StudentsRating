@@ -1,0 +1,11 @@
+@startuml
+title Select specialty
+(*)-->"send request to server to get specialty list"
+  if"" then
+    note left:"couldn`t connect to server"
+    -left->[0]"send request to server to get specialty list"
+  else
+    -->[1] choise specialty
+    -->(*)
+  endif
+@enduml

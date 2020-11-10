@@ -1,0 +1,16 @@
+@startuml
+title Search group
+(*)-->"get group name"
+  -->"send group name to server"
+  if"server recieved data?" then
+   note left:show"coudn`t connect to server" msg
+    -up->[0]"get group name"
+  else
+    if"do server responded that name exist in DataBase?" then
+      -up->[0]"get group name"
+    else
+      -->[1]"show recieved to ranking list"
+      -->(*)
+    endif
+  endif
+@enduml

@@ -1,0 +1,20 @@
+@startuml
+title LoginProcess
+(*) -->"get password and login"
+-->"send password and login to server"
+if "sever recieved data in 3 seconds?" then
+note left: show "could not connect to server" msg
+  -left->[0]"get password and login"
+else
+  if "sarver verified existing of this login?" then
+    note left: show "this login does not exist" msg
+    -->[0]"get password and login"
+  else
+    if "server verified password?" then
+      -->[0]"get password and login"
+    else
+      -->(*)
+    endif
+  endif
+endif
+@enduml

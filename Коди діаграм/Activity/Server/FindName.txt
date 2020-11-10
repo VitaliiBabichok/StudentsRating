@@ -1,0 +1,12 @@
+@startuml
+title Find the name
+(*) --> open "names" database
+-->"find name"
+if "names were found?" then
+  -->[0]"create negative respond"
+  -->(*)
+else
+  -->[1]"display the name\n in the ranking list"
+  -->(*)
+endif
+@enduml

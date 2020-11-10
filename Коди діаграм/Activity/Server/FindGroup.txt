@@ -1,0 +1,12 @@
+@startuml
+title Find the group
+(*) --> open "group name" database
+-->"find group name"
+if "groups name were found?" then
+  -->[0]"create negative respond"
+  -->(*)
+else
+  -->[1]"display the group name\n in the ranking list"
+  -->(*)
+endif
+@enduml

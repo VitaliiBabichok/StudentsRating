@@ -1,0 +1,21 @@
+@startuml
+title LoginProcess
+(*) -->"get login, pass\n and verification pass"
+if "pass==verification pass?" then
+  note left: show "passwords don't match" msg
+  -left->[0]"get login, pass\n and verification pass"
+else
+  -->[1]"send password and login to server"
+  if "sever recieved data in 3 seconds?" then
+  note left: show "could not connect to server" msg
+	-->[0]"get login, pass\n and verification pass"
+  else
+	if "server saved login and pass\n to database?" then
+	  note right: show "saving data error \n please try again" msg
+    -->[0]"get login, pass\n and verification pass"
+	else
+		-->[1](*)
+	endif
+  endif
+endif
+@enduml

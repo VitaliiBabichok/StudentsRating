@@ -1,0 +1,12 @@
+@startuml
+title Registration
+(*) --> open "users and passes" database
+if "user name was found?" then
+  -->[1] create negative respond 
+  -->(*)
+else
+  -->[0]"add username and pass to database"
+  -->"create positive respond"
+  -->(*)
+endif
+@enduml

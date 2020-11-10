@@ -1,0 +1,7 @@
+@startuml
+title Find the usniversity
+(*) -->receiving a request\n for a list of usniversity
+-->creating a list of usniversity
+-->send a list of usniversity
+-->(*)
+@enduml

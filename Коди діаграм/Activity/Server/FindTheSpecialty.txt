@@ -1,0 +1,7 @@
+@startuml
+title Find the specialty
+(*) -->receiving a request\n for a list of specialty
+-->creating a list of specialty
+-->send a list of specialty
+-->(*)
+@enduml

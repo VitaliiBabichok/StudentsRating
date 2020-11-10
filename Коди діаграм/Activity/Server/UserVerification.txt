@@ -1,0 +1,15 @@
+@startuml
+title User verification
+(*) --> open "users and passes" database
+if "user name was found?" then
+  -->[0] create negative respond 
+  -->(*)
+else
+  [1]if "recieved pass == pass in database?" then
+    -->[0] "create negative respond"
+  else
+    -->[1] "create positive respond"
+    -->(*)
+  endif
+endif
+@enduml

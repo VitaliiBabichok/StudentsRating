@@ -1,0 +1,11 @@
+@startuml
+title Select city
+(*)-->"send request to server to get cities list"
+  if"" then
+note left:"couldn`t connect to server"
+    -left->[0]"send request to server to get cities list"
+  else
+    -->[1]city choice
+    -->(*)
+  endif
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor Server
+rectangle client {
+(information about\n connection to system) <-- Server
+(sending rating lists) <-- Server
+}
+rectangle server {
+Server -->(decoding the command\n received from the client)
+}
+rectangle DataBase {
+(decoding the command\n received from the client)-->(user verification)
+(decoding the command\n received from the client)-->(user registration)
+(decoding the command\n received from the client)-->(finding the city)
+(decoding the command\n received from the client)-->(finding the university)
+(decoding the command\n received from the client)-->(finding the specialty)
+(decoding the command\n received from the client)-->(finding the name)
+(decoding the command\n received from the client)-->(finding the group)
+}
+@enduml

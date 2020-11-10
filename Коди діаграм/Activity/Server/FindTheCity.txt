@@ -1,0 +1,7 @@
+@startuml
+title Find the city
+(*) -->receiving a request\n for a list of cities
+-->creating a list of cities
+-->send a list of cities
+-->(*)
+@enduml

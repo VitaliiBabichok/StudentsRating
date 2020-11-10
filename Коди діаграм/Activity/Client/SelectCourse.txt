@@ -1,0 +1,11 @@
+@startuml
+title Select course
+(*)-->"send request to server to get course list"
+  if"" then
+    note left:"couldn`t connect to server"
+    -left->[0]"send request to server to get course list"
+  else
+    -->[1] choise course
+    -->(*)
+  endif
+@enduml
