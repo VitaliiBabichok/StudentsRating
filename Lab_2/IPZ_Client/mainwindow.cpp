@@ -13,3 +13,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_RegisterButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_BackRegisterWidget_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
