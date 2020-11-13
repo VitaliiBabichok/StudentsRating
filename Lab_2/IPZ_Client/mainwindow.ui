@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1920</width>
-    <height>1080</height>
+    <width>500</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -33,10 +33,16 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_5">
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="LoginWidget">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -73,7 +79,7 @@
               <property name="maximumSize">
                <size>
                 <width>200</width>
-                <height>50</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -124,7 +130,7 @@
               <property name="maximumSize">
                <size>
                 <width>200</width>
-                <height>50</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -149,7 +155,7 @@
               <property name="maximumSize">
                <size>
                 <width>200</width>
-                <height>50</height>
+                <height>40</height>
                </size>
               </property>
               <property name="text">
@@ -203,7 +209,7 @@
               <property name="maximumSize">
                <size>
                 <width>500</width>
-                <height>70</height>
+                <height>50</height>
                </size>
               </property>
               <property name="text">
@@ -234,7 +240,7 @@
               <property name="maximumSize">
                <size>
                 <width>500</width>
-                <height>70</height>
+                <height>50</height>
                </size>
               </property>
               <property name="accessibleName">
@@ -423,7 +429,7 @@
               <property name="maximumSize">
                <size>
                 <width>600</width>
-                <height>60</height>
+                <height>50</height>
                </size>
               </property>
               <property name="placeholderText">
@@ -448,7 +454,7 @@
               <property name="maximumSize">
                <size>
                 <width>600</width>
-                <height>60</height>
+                <height>50</height>
                </size>
               </property>
               <property name="placeholderText">
@@ -473,7 +479,7 @@
               <property name="maximumSize">
                <size>
                 <width>600</width>
-                <height>60</height>
+                <height>50</height>
                </size>
               </property>
               <property name="alignment">
@@ -498,15 +504,20 @@
               </property>
               <property name="minimumSize">
                <size>
-                <width>40</width>
+                <width>50</width>
                 <height>25</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>40</width>
+                <width>50</width>
                 <height>25</height>
                </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
               </property>
               <property name="text">
                <string>←</string>

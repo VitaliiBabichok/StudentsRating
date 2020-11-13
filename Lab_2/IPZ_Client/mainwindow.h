@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "selectcity.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,14 @@ private slots:
 
     void on_BackRegisterWidget_clicked();
 
+    void on_LoginButton_clicked();
+
+    void moveLoginMenu();
+
+    void on_ExitButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+    SelectCity _SetCity;
 };
 #endif // MAINWINDOW_H
