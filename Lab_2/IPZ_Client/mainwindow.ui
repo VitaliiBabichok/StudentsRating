@@ -31,6 +31,32 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+
+background-color: rgb(26, 37, 255);}
+
+QPushButton{
+	color: rgb(0, 0, 0);
+	background-color: rgb(114, 255, 20);
+border-radius:15px;}
+
+QPushButton#BackRegisterWidget{
+background-color: rgb(26, 37, 255);
+
+}
+
+QPushButton#BackSetCityButton{
+background-color: rgb(26, 37, 255);
+}
+
+QLineEdit{
+	color: rgb(0, 0, 0);
+background-color: rgb(255, 254, 237);
+border-radius:15px;
+	
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_5">
     <property name="bottomMargin">
@@ -42,9 +68,12 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="LoginWidget">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout">
@@ -81,6 +110,12 @@
                 <width>200</width>
                 <height>40</height>
                </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>OpenHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
               </property>
               <property name="text">
                <string>Exit</string>
@@ -133,6 +168,9 @@
                 <height>40</height>
                </size>
               </property>
+              <property name="cursor">
+               <cursorShape>OpenHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>Login</string>
               </property>
@@ -157,6 +195,9 @@
                 <width>200</width>
                 <height>40</height>
                </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>OpenHandCursor</cursorShape>
               </property>
               <property name="text">
                <string>Register</string>
@@ -361,6 +402,9 @@
                 <height>50</height>
                </size>
               </property>
+              <property name="cursor">
+               <cursorShape>OpenHandCursor</cursorShape>
+              </property>
               <property name="text">
                <string>Register</string>
               </property>
@@ -457,6 +501,9 @@
                 <height>50</height>
                </size>
               </property>
+              <property name="echoMode">
+               <enum>QLineEdit::PasswordEchoOnEdit</enum>
+              </property>
               <property name="placeholderText">
                <string>Pass</string>
               </property>
@@ -482,6 +529,9 @@
                 <height>50</height>
                </size>
               </property>
+              <property name="echoMode">
+               <enum>QLineEdit::PasswordEchoOnEdit</enum>
+              </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
@@ -505,22 +555,26 @@
               <property name="minimumSize">
                <size>
                 <width>50</width>
-                <height>25</height>
+                <height>20</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>50</width>
-                <height>25</height>
+                <width>100</width>
+                <height>40</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <pointsize>10</pointsize>
+                <pointsize>26</pointsize>
                </font>
               </property>
+              <property name="cursor">
+               <cursorShape>OpenHandCursor</cursorShape>
+              </property>
               <property name="text">
-               <string>←</string>
+               <string>←
+</string>
               </property>
              </widget>
             </item>
