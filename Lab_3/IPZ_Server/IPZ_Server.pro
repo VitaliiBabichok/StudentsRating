@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += sql
 QT       += network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,15 +12,14 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    selectcity.cpp
+    server.cpp
 
 HEADERS += \
     mainwindow.h \
-    selectcity.h
+    server.h
 
 FORMS += \
-    mainwindow.ui \
-    selectcity.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
