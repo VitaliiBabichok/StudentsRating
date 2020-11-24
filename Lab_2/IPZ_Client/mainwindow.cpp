@@ -136,13 +136,60 @@ void MainWindow::sockReady()
     }
 }
 
+bool MainWindow::TryReccon()
+{
+    bool reconnRepl = 1;
+    while (reconnRepl == 1)
+    {
+        // try to recconect to server
+        socket->connectToHost("194.44.71.144", 48130);
+
+        // wait for connection to be established
+        socket->waitForConnected(5000);
+
+        // if client is not connected reconnect
+        if (socket->state() != QTcpSocket::ConnectedState)
+        {
+            // create msf box
+            // ask if user want to try to connect again
+            QMessageBox recMsgBox;
+            recMsgBox.setWindowTitle("Connection with server lost");
+            recMsgBox.setInformativeText("Unable connect to server. Do u want to try again?");
+            recMsgBox.addButton("Yes", QMessageBox::YesRole);
+            QAbstractButton* recNoBtn = recMsgBox.addButton("Quit app", QMessageBox::NoRole);
+            recMsgBox.setIcon(QMessageBox::Question);
+            recMsgBox.exec();
+            if (recMsgBox.clickedButton() == recNoBtn)
+            {
+                reconnRepl = 0;
+            }
+        }
+        // if we connected
+        else
+        {
+            // if connected returk true
+            return 1;
+        }
+    }
+    // if not connected and user dont want to try again
+    return 0;
+}
+
 //disconnect from server event
 void MainWindow::sockDisk()
 {
-    //to do:try to recconect
-    qDebug()<<"Disconnected from server";
-    socket->deleteLater();
+    // if we user dont want to reconnect
+    if (!TryReccon())
+    {
+        // if user dont want to reconnect
+        qDebug()<<"Disconnected from server";
+        socket->deleteLater();
+        this->close();
+    }
 }
+
+
+
 
 void MainWindow::decEndExec()
 {
@@ -150,12 +197,12 @@ void MainWindow::decEndExec()
     if (obj->value("operation").toString() == "login")
     {
         // call login funct
-        logProc();
+        LogProc();
     }
     // if it is respond to registration process
     else if (obj->value("operation").toString() == "register")
     {
-        regProc();
+        RegProc();
     }
     // if server send unknown operation
     else
@@ -164,7 +211,7 @@ void MainWindow::decEndExec()
     }
 }
 
-void MainWindow::logProc()
+void MainWindow::LogProc()
 {
     // if log and pass are good
     if (obj->value("resp").toString() == "ok")
@@ -178,7 +225,7 @@ void MainWindow::logProc()
     }
 }
 
-void MainWindow::regProc()
+void MainWindow::RegProc()
 {
     // if registration is successful
     if (obj->value("resp").toString() == "ok")

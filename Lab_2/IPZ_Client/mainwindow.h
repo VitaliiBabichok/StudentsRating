@@ -31,8 +31,9 @@ public:
     QJsonObject* obj= new QJsonObject();
     void createSocket();    //create and init socket with IP and port number
     void decEndExec();
-    void logProc();
-    void regProc();
+    void LogProc();
+    void RegProc();
+    bool TryReccon();
 private slots:
     void on_RegisterButton_clicked();
     void on_BackRegisterWidget_clicked();
