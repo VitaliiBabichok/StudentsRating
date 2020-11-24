@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QRegularExpression>
 //communication with server related
 #include <QTcpSocket>
 //JSON
@@ -34,6 +35,8 @@ public:
     void LogProc();
     void RegProc();
     bool TryReccon();
+
+
 private slots:
     void on_RegisterButton_clicked();
     void on_BackRegisterWidget_clicked();
@@ -46,6 +49,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    SelectCity _SetCity;
+    SelectCity* _SetCity;
 };
 #endif // MAINWINDOW_H

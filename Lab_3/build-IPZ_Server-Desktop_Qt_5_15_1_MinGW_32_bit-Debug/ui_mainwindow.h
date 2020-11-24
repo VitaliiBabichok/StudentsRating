@@ -11,9 +11,11 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableView>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -22,6 +24,7 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
+    QTableView *tableView;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -32,9 +35,13 @@ public:
         MainWindow->resize(800, 600);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+        tableView = new QTableView(centralwidget);
+        tableView->setObjectName(QString::fromUtf8("tableView"));
+        tableView->setGeometry(QRect(95, 71, 631, 471));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
+        menubar->setGeometry(QRect(0, 0, 800, 20));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));

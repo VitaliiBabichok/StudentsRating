@@ -1,17 +1,22 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "QMessageBox"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(QWidget *parent):
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+
 {
-    ui->setupUi(this);
-    ui->stackedWidget->addWidget(&_SetCity);
 
-    connect(&_SetCity, SIGNAL(BackCityMenu()), this, SLOT(moveLoginMenu()));
+    ui->setupUi(this);
+
+
+
 
     createSocket();
+    _SetCity=new SelectCity(socket);
+    ui->stackedWidget->addWidget(_SetCity);
+    connect(_SetCity, SIGNAL(BackCityMenu()), this, SLOT(moveLoginMenu()));
 }
 
 MainWindow::~MainWindow()
@@ -32,33 +37,122 @@ void MainWindow::on_BackRegisterWidget_clicked()
 
 void MainWindow::on_LoginButton_clicked()
 {
-    //read data from line edits and convert it to JSON format
-    QString txtToSend = QString("{\"operation\":\"login\", \"log\":\"%1\", \"pass\":\"%2\"}").arg(ui->GetLogin->text()).arg(ui->GetPass->text());
+    QString LogLine = ui->GetLogin->text();
+    QString PassLine = ui->GetPass->text();
+    QRegularExpression LogFormat("[a-zA-Z0-9\\_\\-\\.]{5,20}");
+    QRegularExpression PassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
 
-    //send log and pass to server
-    socket->write(txtToSend.toLocal8Bit());
-    socket->waitForBytesWritten(1500);
-
-
-}
-void MainWindow::on_RegisterWidgetButton_clicked()
-{
-    if(ui->PassRegisterWidget->text()==ui->ConfirmPassRegisterWidget->text())
+    if (LogFormat.match(LogLine).capturedLength() >= 5 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
+        // if login format is correct
     {
-        if(ui->PassRegisterWidget->text().length()!=0 && ui->ConfirmPassRegisterWidget->text().length()!=0){
+        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
+            // if pass format is correct
+        {
             //read data from line edits and convert it to JSON format
-            QString txtToSend = QString("{\"operation\":\"register\", \"log\":\"%1\", \"pass\":\"%2\", \"verific pass\": \"%3\"}").arg(ui->LoginRegisterWidget->text()).arg(ui->PassRegisterWidget->text()).arg(ui->ConfirmPassRegisterWidget->text());
+            QString txtToSend = QString("{\"operation\":\"login\", \"log\":\"%1\", \"pass\":\"%2\"}").arg(ui->GetLogin->text()).arg(ui->GetPass->text());
             //send log and pass to server
             socket->write(txtToSend.toLocal8Bit());
             socket->waitForBytesWritten(1500);
         }
-        else{
-            QMessageBox::critical(this,"Error information","Passwords cannot be empty. Please try again","Ok");
+        // if passs format is not correct
+        else
+        {
+            QMessageBox::information(this,"Invalid format","Password can only contain latin letters, "
+                                                           "numbers and characters \".\", \"_\" and must "
+                                                           "be longer than 5 but less 20 characters");
         }
     }
-    else{
-        QMessageBox::critical(this,"Error information","Passwords do not match . Please try again","Ok");
+    else
+    {
+        // check pass format
+        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
+            // if password format is incorrect
+        {
+            QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
+                                                           "and characters \".\", \"_\", \"-\" and "
+                                                           "must be longer than 5 but less 20 characters\n\n"
+
+                                                           "Password can only contain latin letters, "
+                                                           "numbers and characters \".\", \"_\" and must "
+                                                           "be longer than 5 but less 20 characters");
+        }
+
+        else
+        {
+                QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
+                                                               "and characters \".\", \"_\", \"-\" and "
+                                                               "must be longer than 5 but less 20 characters");
+        }
     }
+
+}
+void MainWindow::on_RegisterWidgetButton_clicked()
+
+{
+    QString LogLine = ui->LoginRegisterWidget->text();
+    QString PassLine = ui->PassRegisterWidget->text();
+    QString ConfPassLine = ui->PassRegisterWidget->text();
+    QRegularExpression LogFormat("[a-zA-Z0-9\\_\\-\\.]{5,20}");
+    QRegularExpression PassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
+    QRegularExpression ConfPassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
+
+    if (LogFormat.match(LogLine).capturedLength() >= 5 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
+        // if login format is correct
+    {
+        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
+            // if pass format is correct
+        {
+            if(ui->PassRegisterWidget->text()==ui->ConfirmPassRegisterWidget->text())
+            {
+                if(ui->PassRegisterWidget->text().length()!=0 && ui->ConfirmPassRegisterWidget->text().length()!=0){
+                    //read data from line edits and convert it to JSON format
+                    QString txtToSend = QString("{\"operation\":\"register\", \"log\":\"%1\", \"pass\":\"%2\", \"verific pass\": \"%3\"}").arg(ui->LoginRegisterWidget->text()).arg(ui->PassRegisterWidget->text()).arg(ui->ConfirmPassRegisterWidget->text());
+                    //send log and pass to server
+                    socket->write(txtToSend.toLocal8Bit());
+                    socket->waitForBytesWritten(1500);
+                }
+                else
+                {
+                    QMessageBox::information(this,"Invalid format","Password can only contain latin letters, "
+                                                                   "numbers and characters \".\", \"_\" and must "
+                                                                   "be longer than 5 but less 20 characters");
+                }
+            }
+            else
+            {
+                QMessageBox::critical(this,"Error information","Passwords do not match . Please try again","Ok");
+            }
+        }
+        else
+        {
+            QMessageBox::information(this,"Invalid format","Password can only contain latin letters, "
+                                                           "numbers and characters \".\", \"_\" and must "
+                                                           "be longer than 5 but less 20 characters");
+        }
+    }
+    else
+    {
+        // check pass format
+        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
+            // if password format is incorrect
+        {
+            QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
+                                                           "and characters \".\", \"_\", \"-\" and "
+                                                           "must be longer than 5 but less 20 characters\n\n"
+
+                                                           "Password can only contain latin letters, "
+                                                           "numbers and characters \".\", \"_\" and must "
+                                                           "be longer than 5 but less 20 characters");
+        }
+
+        else
+        {
+                QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
+                                                               "and characters \".\", \"_\", \"-\" and "
+                                                               "must be longer than 5 but less 20 characters");
+        }
+    }
+
 }
 
 
@@ -156,10 +250,10 @@ bool MainWindow::TryReccon()
             recMsgBox.setWindowTitle("Connection with server lost");
             recMsgBox.setInformativeText("Unable connect to server. Do u want to try again?");
             recMsgBox.addButton("Yes", QMessageBox::YesRole);
-            QAbstractButton* recNoBtn = recMsgBox.addButton("Quit app", QMessageBox::NoRole);
+            QAbstractButton* recNo = recMsgBox.addButton("Quit app", QMessageBox::NoRole);
             recMsgBox.setIcon(QMessageBox::Question);
             recMsgBox.exec();
-            if (recMsgBox.clickedButton() == recNoBtn)
+            if (recMsgBox.clickedButton() == recNo)
             {
                 reconnRepl = 0;
             }
@@ -174,6 +268,8 @@ bool MainWindow::TryReccon()
     // if not connected and user dont want to try again
     return 0;
 }
+
+
 
 //disconnect from server event
 void MainWindow::sockDisk()
@@ -204,6 +300,7 @@ void MainWindow::decEndExec()
     {
         RegProc();
     }
+
     // if server send unknown operation
     else
     {
@@ -216,7 +313,7 @@ void MainWindow::LogProc()
     // if log and pass are good
     if (obj->value("resp").toString() == "ok")
     {
-        ui->stackedWidget->setCurrentWidget(&_SetCity);
+        ui->stackedWidget->setCurrentWidget(_SetCity);
     }
     // if smt went wrong
     else
@@ -241,3 +338,5 @@ void MainWindow::RegProc()
         QMessageBox::critical(this, "Registration error", obj->value("err").toString(), "Ok");
     }
 }
+
+

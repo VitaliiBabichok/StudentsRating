@@ -28,6 +28,7 @@ void Server::startServer()
         if(db->open())
         {
             qDebug()<<"Database opened";
+
             query = new QSqlQuery(*db);
         }
         else
@@ -85,7 +86,7 @@ void Server::sockReady()
     {
         //read all data
         recievedData = socket->readAll();
-
+        qDebug()<<"user send "<<recievedData;
         //create new JSON doc
         jsnDoc = new QJsonDocument();
 
@@ -136,6 +137,7 @@ void Server::decEndExec(QJsonDocument* doc, QTcpSocket* socket)
         // call registration func
         RegProc(socket);
     }
+
     // if we dont know command that client send
     else
     {
@@ -232,3 +234,5 @@ void Server::RegProc(QTcpSocket *socket )
         socket->waitForBytesWritten(1500);
     }
 }
+
+
