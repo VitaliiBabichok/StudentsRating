@@ -45,14 +45,19 @@ void MainWindow::on_RegisterWidgetButton_clicked()
 {
     if(ui->PassRegisterWidget->text()==ui->ConfirmPassRegisterWidget->text())
     {
-        //read data from line edits and convert it to JSON format
-        QString txtToSend = QString("{\"operation\":\"register\", \"log\":\"%1\", \"pass\":\"%2\", \"verific pass\": \"%3\"}").arg(ui->LoginRegisterWidget->text()).arg(ui->PassRegisterWidget->text()).arg(ui->ConfirmPassRegisterWidget->text());
-        //send log and pass to server
-        socket->write(txtToSend.toLocal8Bit());
-        socket->waitForBytesWritten(1500);
+        if(ui->PassRegisterWidget->text().length()!=0 && ui->ConfirmPassRegisterWidget->text().length()!=0){
+            //read data from line edits and convert it to JSON format
+            QString txtToSend = QString("{\"operation\":\"register\", \"log\":\"%1\", \"pass\":\"%2\", \"verific pass\": \"%3\"}").arg(ui->LoginRegisterWidget->text()).arg(ui->PassRegisterWidget->text()).arg(ui->ConfirmPassRegisterWidget->text());
+            //send log and pass to server
+            socket->write(txtToSend.toLocal8Bit());
+            socket->waitForBytesWritten(1500);
+        }
+        else{
+            QMessageBox::critical(this,"Error information","Passwords cannot be empty. Please try again","Ok");
+        }
     }
     else{
-        QMessageBox::critical(this,"Error information","Passwords do not match. Please try again","Ok");
+        QMessageBox::critical(this,"Error information","Passwords do not match . Please try again","Ok");
     }
 }
 
@@ -82,7 +87,7 @@ void MainWindow::createSocket()
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisk()));
 
     //init socket with ip and port of server
-    socket->connectToHost("194.44.183.59", 48130);
+    socket->connectToHost("194.44.71.144", 48130);
 
     //wait for connection to be established
     socket->waitForConnected(1500);
@@ -141,39 +146,51 @@ void MainWindow::sockDisk()
 
 void MainWindow::decEndExec()
 {
-    //if it is respond to login process
-    if(obj->value("operation").toString()=="login")
+    // if it is respond to login process
+    if (obj->value("operation").toString() == "login")
     {
-        //if log and pass are good
-        if(obj->value("resp").toString()=="ok")
-        {
-            ui->stackedWidget->setCurrentWidget(&_SetCity);
-        }
-        //if smt went wrong
-        else
-        {
-            QMessageBox::critical(this,"Error information",obj->value("err").toString(),"Ok");
-        }
+        // call login funct
+        logProc();
     }
-    //if it is respond to register process
-    else if(obj->value("operation").toString()=="register")
+    // if it is respond to registration process
+    else if (obj->value("operation").toString() == "register")
     {
-        //if log and pass insert to db
-        if(obj->value("resp").toString()=="ok")
-        {
-            QMessageBox::information(this,"Register information","Registration is successful","Ok");
-            ui->stackedWidget->setCurrentIndex(0);
-        }
-        else
-        {
-            QMessageBox::critical(this,"Error information",obj->value("err").toString(),"Ok");
-        }
+        regProc();
     }
-    //if server send unknown operation
+    // if server send unknown operation
     else
     {
-        QMessageBox::critical(this,"Error information","Something went wrong. Please check your internet connection","Ok");
+        QMessageBox::critical(this, "Error information", "Something went wrong. Please check your internet connection", "Ok");
     }
-
 }
 
+void MainWindow::logProc()
+{
+    // if log and pass are good
+    if (obj->value("resp").toString() == "ok")
+    {
+        ui->stackedWidget->setCurrentWidget(&_SetCity);
+    }
+    // if smt went wrong
+    else
+    {
+        QMessageBox::critical(this, "Error information", obj->value("err").toString(), "Ok");
+    }
+}
+
+void MainWindow::regProc()
+{
+    // if registration is successful
+    if (obj->value("resp").toString() == "ok")
+    {
+        // show msg and go to login menu
+        QMessageBox::information(this, "Registration info", "Registration is successful. Now yoo can login");
+
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+    // if smt went wrong
+    else
+    {
+        QMessageBox::critical(this, "Registration error", obj->value("err").toString(), "Ok");
+    }
+}

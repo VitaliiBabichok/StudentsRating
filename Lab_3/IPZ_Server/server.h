@@ -30,6 +30,8 @@ public:
     QSqlDatabase* db;
     QSqlQuery* query;
     void decEndExec(QJsonDocument* doc, QTcpSocket* socket);
+    void LogProc(QTcpSocket* socket);
+    void RegProc(QTcpSocket* socket);
 
 public slots:
     void startServer();

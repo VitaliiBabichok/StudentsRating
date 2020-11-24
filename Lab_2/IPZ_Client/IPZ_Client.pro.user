@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.13.2, 2020-11-20T17:11:51. -->
+<!-- Written by QtCreator 4.13.2, 2020-11-24T14:33:19. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -325,9 +325,8 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">IPZ_Client2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/labs/tsyhylyk/Lab_2/IPZ_Client/IPZ_Client.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/labs/tsyhylyk/Lab_2/IPZ_Client/IPZ_Client.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:D:/labs/tsyhylyk/Lab_2/IPZ_client/IPZ_Client.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">D:/labs/tsyhylyk/Lab_2/IPZ_client/IPZ_Client.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

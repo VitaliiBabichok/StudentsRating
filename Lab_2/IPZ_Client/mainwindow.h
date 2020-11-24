@@ -29,7 +29,10 @@ public:
     QJsonDocument* jsnDoc;
     QJsonParseError* errJsn = new QJsonParseError();
     QJsonObject* obj= new QJsonObject();
+    void createSocket();    //create and init socket with IP and port number
     void decEndExec();
+    void logProc();
+    void regProc();
 private slots:
     void on_RegisterButton_clicked();
     void on_BackRegisterWidget_clicked();
@@ -43,6 +46,5 @@ private slots:
 private:
     Ui::MainWindow *ui;
     SelectCity _SetCity;
-    void createSocket();    //create and init socket with IP and port number
 };
 #endif // MAINWINDOW_H
