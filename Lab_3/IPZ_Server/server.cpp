@@ -11,7 +11,7 @@ Server::~Server() {}
 //start server and make it listening local ip
 void Server::startServer()
 {
-    QHostAddress _adress("192.168.0.103");
+    QHostAddress _adress("127.0.0.1");
 
     //check if server started
     if(this->listen(_adress, 48130))
@@ -137,7 +137,10 @@ void Server::decEndExec(QJsonDocument* doc, QTcpSocket* socket)
         // call registration func
         RegProc(socket);
     }
-
+    else if(obj->value("operation") == "getCity")
+    {
+        GetCity(socket);
+    }
     // if we dont know command that client send
     else
     {
@@ -164,6 +167,7 @@ void Server::LogProc(QTcpSocket* socket)
                 // return validation is ok respond to client
                 socket->write("{\"operation\":\"login\", \"resp\":\"ok\"}");
                 socket->waitForBytesWritten(1500);
+
             }
             // if password is not correct
             else
@@ -231,6 +235,30 @@ void Server::RegProc(QTcpSocket *socket )
     {
         // handle bad query execution
         socket->write("{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        socket->waitForBytesWritten(1500);
+    }
+}
+
+void Server::GetCity(QTcpSocket *socket)
+{
+    if(query->exec("select * From CityInfo"))
+    {
+        QString respon="{\"operation\":\"getCity\", \"resp\":\"ok\", \"data\":[";
+        while(query->next())
+        {
+              respon.append("\""+query->value(0).toString()+"\",");
+        }
+        respon.remove(respon.length()-1,1);
+        respon.append("]}");
+
+        socket->write(respon.toUtf8());
+        socket->waitForBytesWritten(1500);
+        qDebug()<<respon;
+    }
+    else
+    {
+        // eror bad connect
+        socket->write("{\"operation\":\"getCity\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
         socket->waitForBytesWritten(1500);
     }
 }

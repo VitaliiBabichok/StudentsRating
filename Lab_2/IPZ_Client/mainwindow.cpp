@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 
     createSocket();
-    _SetCity=new SelectCity(socket);
+    _SetCity=new SelectCity(socket,obj);
     ui->stackedWidget->addWidget(_SetCity);
     connect(_SetCity, SIGNAL(BackCityMenu()), this, SLOT(moveLoginMenu()));
 }
@@ -42,17 +42,19 @@ void MainWindow::on_LoginButton_clicked()
     QRegularExpression LogFormat("[a-zA-Z0-9\\_\\-\\.]{5,20}");
     QRegularExpression PassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
 
-    if (LogFormat.match(LogLine).capturedLength() >= 5 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
+    if (LogFormat.match(LogLine).capturedLength() >= 5 &&LogFormat.match(LogLine).capturedLength() <= 20 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
         // if login format is correct
     {
-        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
+        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() <= 20 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
             // if pass format is correct
         {
             //read data from line edits and convert it to JSON format
             QString txtToSend = QString("{\"operation\":\"login\", \"log\":\"%1\", \"pass\":\"%2\"}").arg(ui->GetLogin->text()).arg(ui->GetPass->text());
             //send log and pass to server
-            socket->write(txtToSend.toLocal8Bit());
+            socket->write(txtToSend.toUtf8());
             socket->waitForBytesWritten(1500);
+
+
         }
         // if passs format is not correct
         else
@@ -65,7 +67,7 @@ void MainWindow::on_LoginButton_clicked()
     else
     {
         // check pass format
-        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
+        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() >20 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
             // if password format is incorrect
         {
             QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
@@ -96,10 +98,10 @@ void MainWindow::on_RegisterWidgetButton_clicked()
     QRegularExpression PassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
     QRegularExpression ConfPassFormat("[a-zA-Z0-9\\_\\.]{5,20}");
 
-    if (LogFormat.match(LogLine).capturedLength() >= 5 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
+    if (LogFormat.match(LogLine).capturedLength() >= 5 &&LogFormat.match(LogLine).capturedLength() <= 20 && LogFormat.match(LogLine).capturedLength() == LogLine.length())
         // if login format is correct
     {
-        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
+        if (PassFormat.match(PassLine).capturedLength() >= 5 && PassFormat.match(PassLine).capturedLength() <= 20 && PassFormat.match(PassLine).capturedLength() == PassLine.length())
             // if pass format is correct
         {
             if(ui->PassRegisterWidget->text()==ui->ConfirmPassRegisterWidget->text())
@@ -108,7 +110,7 @@ void MainWindow::on_RegisterWidgetButton_clicked()
                     //read data from line edits and convert it to JSON format
                     QString txtToSend = QString("{\"operation\":\"register\", \"log\":\"%1\", \"pass\":\"%2\", \"verific pass\": \"%3\"}").arg(ui->LoginRegisterWidget->text()).arg(ui->PassRegisterWidget->text()).arg(ui->ConfirmPassRegisterWidget->text());
                     //send log and pass to server
-                    socket->write(txtToSend.toLocal8Bit());
+                    socket->write(txtToSend.toUtf8());
                     socket->waitForBytesWritten(1500);
                 }
                 else
@@ -133,7 +135,7 @@ void MainWindow::on_RegisterWidgetButton_clicked()
     else
     {
         // check pass format
-        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
+        if (PassFormat.match(PassLine).capturedLength() < 5 || PassFormat.match(PassLine).capturedLength() >20 || PassFormat.match(PassLine).capturedLength() != PassLine.length())
             // if password format is incorrect
         {
             QMessageBox::information(this,"Invalid format","Login can only contain latin letters, numbers "
@@ -158,6 +160,7 @@ void MainWindow::on_RegisterWidgetButton_clicked()
 
 void MainWindow::moveLoginMenu()
 {
+
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -181,7 +184,7 @@ void MainWindow::createSocket()
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisk()));
 
     //init socket with ip and port of server
-    socket->connectToHost("194.44.71.144", 48130);
+    socket->connectToHost("127.0.0.1", 48130);
 
     //wait for connection to be established
     socket->waitForConnected(1500);
@@ -236,7 +239,7 @@ bool MainWindow::TryReccon()
     while (reconnRepl == 1)
     {
         // try to recconect to server
-        socket->connectToHost("194.44.71.144", 48130);
+        socket->connectToHost("127.0.0.1", 48130);
 
         // wait for connection to be established
         socket->waitForConnected(5000);
@@ -271,6 +274,7 @@ bool MainWindow::TryReccon()
 
 
 
+
 //disconnect from server event
 void MainWindow::sockDisk()
 {
@@ -300,7 +304,10 @@ void MainWindow::decEndExec()
     {
         RegProc();
     }
-
+    else if(obj->value("operation").toString() == "getCity")
+    {
+       _SetCity->GetCity();
+    }
     // if server send unknown operation
     else
     {
@@ -314,6 +321,10 @@ void MainWindow::LogProc()
     if (obj->value("resp").toString() == "ok")
     {
         ui->stackedWidget->setCurrentWidget(_SetCity);
+
+        QString reqSend = QString("{\"operation\":\"getCity\"}");
+        socket->write(reqSend.toUtf8());
+        socket->waitForBytesWritten(1500);
     }
     // if smt went wrong
     else
@@ -338,5 +349,6 @@ void MainWindow::RegProc()
         QMessageBox::critical(this, "Registration error", obj->value("err").toString(), "Ok");
     }
 }
+
 
 

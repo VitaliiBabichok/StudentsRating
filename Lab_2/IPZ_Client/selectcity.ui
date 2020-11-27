@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>500</height>
+    <width>614</width>
+    <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@ QPushButton#BackRatingsButton{
 background-color: rgb(26, 37, 255);
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="gridLayout_12">
    <item row="0" column="0">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
@@ -39,7 +39,7 @@ background-color: rgb(26, 37, 255);
      <widget class="QWidget" name="CityWidget">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
-        <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0" columnstretch="0,0">
+        <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,0" columnstretch="0,0,0">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -55,8 +55,72 @@ background-color: rgb(26, 37, 255);
          <property name="spacing">
           <number>10</number>
          </property>
-         <item row="1" column="1">
-          <widget class="QTableView" name="tableCity"/>
+         <item row="0" column="1">
+          <layout class="QGridLayout" name="gridLayout">
+           <property name="leftMargin">
+            <number>20</number>
+           </property>
+           <property name="topMargin">
+            <number>20</number>
+           </property>
+           <property name="rightMargin">
+            <number>20</number>
+           </property>
+           <property name="bottomMargin">
+            <number>20</number>
+           </property>
+           <item row="0" column="2">
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="RefreshCity">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>refresh</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </item>
          <item row="0" column="0">
           <widget class="QPushButton" name="BackSetCityButton">
@@ -101,6 +165,15 @@ background-color: rgb(26, 37, 255);
            </property>
            <property name="autoRepeatInterval">
             <number>100</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QListView" name="listCity">
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+            </font>
            </property>
           </widget>
          </item>

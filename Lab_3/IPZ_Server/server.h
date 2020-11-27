@@ -32,7 +32,7 @@ public:
     void decEndExec(QJsonDocument* doc, QTcpSocket* socket);
     void LogProc(QTcpSocket* socket);
     void RegProc(QTcpSocket* socket);
-    void CityListProc(QTcpSocket* socket);
+    void GetCity(QTcpSocket* socket);
 
 public slots:
     void startServer();
