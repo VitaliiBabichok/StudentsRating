@@ -33,6 +33,12 @@ public:
     void LogProc(QTcpSocket* socket);
     void RegProc(QTcpSocket* socket);
     void GetCity(QTcpSocket* socket);
+    void GetUniver(QTcpSocket* socket);
+    void GetSpecialty(QTcpSocket* socket);
+    void GetCourse(QTcpSocket* socket);
+    void GetRating(QTcpSocket* socket);
+    void GroupSearch(QTcpSocket* socket);
+    void NameSearch(QTcpSocket* socket);
 
 public slots:
     void startServer();

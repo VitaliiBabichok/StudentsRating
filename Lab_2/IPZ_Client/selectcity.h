@@ -9,6 +9,9 @@
 #include <QJsonParseError>
 #include <QJsonDocument>
 #include <QMessageBox>
+#include <QEvent>
+#include <QMouseEvent>
+#include <QStandardItemModel>
 
 namespace Ui {
 class SelectCity;
@@ -23,8 +26,19 @@ public:
     ~SelectCity();
     QJsonObject* obj= new QJsonObject();
     QTcpSocket * socket;
-    void GetCity();
+    QString UniverList;
+    QString SpecialtyList;
+    QString CourseList;
+    QString GroupSearch;
+    QString NameSearch;
 
+    void GetCity();
+    void GetUniver();
+    void GetSpecialty();
+    void GetCourse();
+    void GetRating();
+    void SearchGroup();
+   void SearchName();
 
 private slots:
 
@@ -34,9 +48,34 @@ private slots:
     void on_BackSetCourseButton_clicked();
     void on_BackRatingsButton_clicked();
     void on_RefreshCity_clicked();
+
+
+    void on_listCity_clicked(const QModelIndex &index);
+
+   // void on_listUniver_clicked(const QModelIndex &index);
+
+
+
+    void on_listUniver_clicked(const QModelIndex &index);
+
+
+
+    void on_listSpecialty_clicked(const QModelIndex &index);
+
+    void on_listCourse_clicked(const QModelIndex &index);
+
+    void on_GetGroup_editingFinished();
+
+    void on_GetNameStudent_editingFinished();
+
 private:
     Ui::SelectCity *ui;
-    QStringListModel* model;
+    QStringListModel* modelCity;
+    QStringListModel* modelUniver;
+    QStringListModel* modelSpecialty;
+    QStringListModel* modelCourse;
+    QStandardItemModel *modelRating;
+
     
    signals:
     void BackCityMenu();

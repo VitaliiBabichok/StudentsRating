@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 
 
-
+    ui->stackedWidget->setCurrentIndex(0);
     createSocket();
     _SetCity=new SelectCity(socket,obj);
     ui->stackedWidget->addWidget(_SetCity);
@@ -293,6 +293,7 @@ void MainWindow::sockDisk()
 
 void MainWindow::decEndExec()
 {
+    qDebug()<<obj->value("operation").toString();
     // if it is respond to login process
     if (obj->value("operation").toString() == "login")
     {
@@ -308,6 +309,30 @@ void MainWindow::decEndExec()
     {
        _SetCity->GetCity();
     }
+    else if(obj->value("operation").toString() == "getUniver")
+    {
+       _SetCity->GetUniver();
+    }
+    else if(obj->value("operation").toString() == "getSpecialty")
+    {
+       _SetCity->GetSpecialty();
+    }
+    else if(obj->value("operation").toString() == "getCourse")
+    {
+       _SetCity->GetCourse();
+    }
+    else if(obj->value("operation").toString() == "getRating")
+    {
+       _SetCity->GetRating();
+    }
+    else if(obj->value("operation").toString() == "searchGroup")
+    {
+       _SetCity->SearchGroup();
+    }
+    else if(obj->value("operation").toString() == "searchStudent")
+    {
+       _SetCity->SearchName();
+    }
     // if server send unknown operation
     else
     {
@@ -322,8 +347,8 @@ void MainWindow::LogProc()
     {
         ui->stackedWidget->setCurrentWidget(_SetCity);
 
-        QString reqSend = QString("{\"operation\":\"getCity\"}");
-        socket->write(reqSend.toUtf8());
+        QString CityList = QString("{\"operation\":\"getCity\"}");
+        socket->write(CityList.toUtf8());
         socket->waitForBytesWritten(1500);
     }
     // if smt went wrong
