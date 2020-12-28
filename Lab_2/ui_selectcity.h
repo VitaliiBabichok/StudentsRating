@@ -74,6 +74,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QLineEdit *GetGroup;
     QLineEdit *GetNameStudent;
+    QPushButton *Reset;
     QSpacerItem *horizontalSpacer;
 
     void setupUi(QDialog *SelectCity)
@@ -99,8 +100,8 @@ public:
 "}\n"
 "\n"
 "QTableView {\n"
-"	background-color: rgb(170, 0, 0);\n"
-"	alternate-background-color: rgb(0, 85, 0);\n"
+"	background-color: rgb(255, 255, 255);\n"
+"	alternate-background-color: rgb(200, 200, 200);\n"
 "}"));
         gridLayout_4 = new QGridLayout(SelectCity);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
@@ -396,6 +397,17 @@ public:
 
         horizontalLayout->addWidget(GetNameStudent);
 
+        Reset = new QPushButton(RatingsWidget);
+        Reset->setObjectName(QString::fromUtf8("Reset"));
+        Reset->setMinimumSize(QSize(100, 40));
+        Reset->setMaximumSize(QSize(100, 40));
+        QFont font2;
+        font2.setPointSize(8);
+        Reset->setFont(font2);
+        Reset->setCursor(QCursor(Qt::OpenHandCursor));
+
+        horizontalLayout->addWidget(Reset);
+
         horizontalSpacer = new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         horizontalLayout->addItem(horizontalSpacer);
@@ -422,7 +434,7 @@ public:
     void retranslateUi(QDialog *SelectCity)
     {
         SelectCity->setWindowTitle(QCoreApplication::translate("SelectCity", "Dialog", nullptr));
-        RefreshCity->setText(QCoreApplication::translate("SelectCity", "refresh", nullptr));
+        RefreshCity->setText(QCoreApplication::translate("SelectCity", "City", nullptr));
         BackSetCityButton->setText(QCoreApplication::translate("SelectCity", "\342\206\220\n"
 "", nullptr));
         BackSetUniversityButton->setText(QCoreApplication::translate("SelectCity", "\342\206\220", nullptr));
@@ -434,7 +446,8 @@ public:
         BackRatingsButton->setText(QCoreApplication::translate("SelectCity", "\342\206\220\n"
 "", nullptr));
         GetGroup->setPlaceholderText(QCoreApplication::translate("SelectCity", "Search group", nullptr));
-        GetNameStudent->setPlaceholderText(QCoreApplication::translate("SelectCity", "Search Student", nullptr));
+        GetNameStudent->setPlaceholderText(QCoreApplication::translate("SelectCity", "Search Student name", nullptr));
+        Reset->setText(QCoreApplication::translate("SelectCity", "Reset", nullptr));
     } // retranslateUi
 
 };

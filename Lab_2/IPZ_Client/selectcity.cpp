@@ -141,6 +141,18 @@ void SelectCity::on_listCourse_clicked(const QModelIndex &index)
     qDebug()<<RatingTable;
     ui->stackedWidget->setCurrentIndex(4);
 }
+
+void SelectCity::on_Reset_clicked()
+{
+    ui->GetGroup->clear();
+    ui->GetNameStudent->clear();
+    ui->Reset->setCheckable(0);
+    QString Reset = QString("{\"operation\":\"getRating\",\"UNIVER\":\""+UniverList+"\", \"SPECIALTY\":\""+SpecialtyList+"\", \"COURSE\":\""+CourseList+"\"}");
+    socket->write(Reset.toUtf8());
+    socket->waitForBytesWritten(1500);
+    qDebug()<<"reset";
+
+}
 void SelectCity::GetUniver()
 {
 
@@ -203,7 +215,7 @@ void SelectCity::GetCourse()
 
 void SelectCity::GetRating()
 {
-
+    ui->Reset->setCheckable(1);
     if(obj->value("resp").toString()=="ok")
     {
 
@@ -337,7 +349,8 @@ void SelectCity::on_GetGroup_editingFinished()
     socket->waitForBytesWritten(1500);
 
 
-    //qDebug()<<GroupNum;
+
+
 
 }
 
@@ -350,3 +363,5 @@ void SelectCity::on_GetNameStudent_editingFinished()
     socket->waitForBytesWritten(1500);
 
 }
+
+

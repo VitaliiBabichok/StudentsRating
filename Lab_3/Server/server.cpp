@@ -12,7 +12,7 @@ Server::~Server() {}
 //start server and make it listening local ip
 void Server::startServer()
 {
-    QHostAddress _adress("192.168.103");
+    QHostAddress _adress("127.0.0.1");
 
     //check if server started
     if(this->listen(_adress, 48130))
@@ -54,12 +54,12 @@ void Server::sockDisc()
     socket->deleteLater();
 }
 
-void Server::DataSend(QTcpSocket *socket, QString &data)
+void Server::DataSend(QTcpSocket *socket, QString data)
 {
-    qDebug()<<(data + "DATAEND").toUtf8();
+    qDebug()<<(data + "End").toUtf8();
 
-        socket->write((data + "DATAEND").toUtf8());
-        socket->waitForBytesWritten(2000);
+        socket->write((data + "End").toUtf8());
+        //socket->waitForBytesWritten(2000);
 }
 
 //gets executed when new client connects to server
@@ -447,6 +447,9 @@ void Server::GroupSearch(QTcpSocket *socket)
 
          }
          if(total)
+
+
+
          RatingTable.remove(RatingTable.length()-1,1);
          RatingTable.append("]}");
 
@@ -454,6 +457,7 @@ void Server::GroupSearch(QTcpSocket *socket)
          DataSend(socket, RatingTable);
          socket->waitForBytesWritten(1500);
          qDebug()<<RatingTable;
+
      }
      else
      {

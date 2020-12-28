@@ -47,7 +47,7 @@ public slots:
     void incomingConnection(qintptr socketDescriptor);
     void sockReady();
     void sockDisc();
-    void DataSend(QTcpSocket* socket, QString& data);
+    void DataSend(QTcpSocket* socket, QString data);
 
 };
 

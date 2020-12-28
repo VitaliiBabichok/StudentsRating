@@ -68,6 +68,8 @@ private slots:
 
     void on_GetNameStudent_editingFinished();
 
+    void on_Reset_clicked();
+
 private:
     Ui::SelectCity *ui;
     QStringListModel* modelCity;

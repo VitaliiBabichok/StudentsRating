@@ -10,7 +10,9 @@ MainWindow::MainWindow(QWidget *parent):
 
     ui->setupUi(this);
 
-
+    obj = new QJsonObject();
+    jsnDoc = new QJsonDocument();
+    errJsn= new QJsonParseError();
 
     ui->stackedWidget->setCurrentIndex(0);
     createSocket();
@@ -21,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent):
 
 MainWindow::~MainWindow()
 {
+    delete socket;
+        delete obj;
+        delete jsnDoc;
+        delete errJsn;
     delete ui;
 }
 
@@ -184,7 +190,7 @@ void MainWindow::createSocket()
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisk()));
 
     //init socket with ip and port of server
-    socket->connectToHost("194.44.192.53", 48130);
+    socket->connectToHost("127.0.0.1", 48130);
 
     //wait for connection to be established
     socket->waitForConnected(1500);
@@ -207,7 +213,7 @@ void MainWindow::sockReady()
             return;
         }
 
-        QByteArray terminantWord = "DATAEND";
+        QByteArray terminantWord = "End";
         int recDatLength = recievedData.length();
 
         for (int i = 1; i <= terminantWord.length(); ++i)
@@ -219,6 +225,8 @@ void MainWindow::sockReady()
         }
 
         recievedData.resize(recievedData.length() - terminantWord.length());
+        qDebug()<<recievedData;
+
         *jsnDoc = QJsonDocument::fromJson(recievedData, errJsn);
 
         recievedData.clear();
@@ -251,7 +259,7 @@ bool MainWindow::TryReccon()
     while (reconnRepl == 1)
     {
         // try to recconect to server
-        socket->connectToHost("194.44.192.53", 48130);
+        socket->connectToHost("127.0.0.1", 48130);
 
         // wait for connection to be established
         socket->waitForConnected(5000);

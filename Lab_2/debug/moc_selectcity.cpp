@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SelectCity_t {
-    QByteArrayData data[17];
-    char stringdata0[375];
+    QByteArrayData data[18];
+    char stringdata0[392];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -48,7 +48,8 @@ QT_MOC_LITERAL(12, 244, 21), // "on_listUniver_clicked"
 QT_MOC_LITERAL(13, 266, 24), // "on_listSpecialty_clicked"
 QT_MOC_LITERAL(14, 291, 21), // "on_listCourse_clicked"
 QT_MOC_LITERAL(15, 313, 27), // "on_GetGroup_editingFinished"
-QT_MOC_LITERAL(16, 341, 33) // "on_GetNameStudent_editingFini..."
+QT_MOC_LITERAL(16, 341, 33), // "on_GetNameStudent_editingFini..."
+QT_MOC_LITERAL(17, 375, 16) // "on_Reset_clicked"
 
     },
     "SelectCity\0BackCityMenu\0\0"
@@ -61,7 +62,8 @@ QT_MOC_LITERAL(16, 341, 33) // "on_GetNameStudent_editingFini..."
     "QModelIndex\0index\0on_listUniver_clicked\0"
     "on_listSpecialty_clicked\0on_listCourse_clicked\0"
     "on_GetGroup_editingFinished\0"
-    "on_GetNameStudent_editingFinished"
+    "on_GetNameStudent_editingFinished\0"
+    "on_Reset_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -71,7 +73,7 @@ static const uint qt_meta_data_SelectCity[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,21 +81,22 @@ static const uint qt_meta_data_SelectCity[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   79,    2, 0x06 /* Public */,
+       1,    0,   84,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   80,    2, 0x08 /* Private */,
-       4,    0,   81,    2, 0x08 /* Private */,
-       5,    0,   82,    2, 0x08 /* Private */,
-       6,    0,   83,    2, 0x08 /* Private */,
-       7,    0,   84,    2, 0x08 /* Private */,
-       8,    0,   85,    2, 0x08 /* Private */,
-       9,    1,   86,    2, 0x08 /* Private */,
-      12,    1,   89,    2, 0x08 /* Private */,
-      13,    1,   92,    2, 0x08 /* Private */,
-      14,    1,   95,    2, 0x08 /* Private */,
-      15,    0,   98,    2, 0x08 /* Private */,
-      16,    0,   99,    2, 0x08 /* Private */,
+       3,    0,   85,    2, 0x08 /* Private */,
+       4,    0,   86,    2, 0x08 /* Private */,
+       5,    0,   87,    2, 0x08 /* Private */,
+       6,    0,   88,    2, 0x08 /* Private */,
+       7,    0,   89,    2, 0x08 /* Private */,
+       8,    0,   90,    2, 0x08 /* Private */,
+       9,    1,   91,    2, 0x08 /* Private */,
+      12,    1,   94,    2, 0x08 /* Private */,
+      13,    1,   97,    2, 0x08 /* Private */,
+      14,    1,  100,    2, 0x08 /* Private */,
+      15,    0,  103,    2, 0x08 /* Private */,
+      16,    0,  104,    2, 0x08 /* Private */,
+      17,    0,  105,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -109,6 +112,7 @@ static const uint qt_meta_data_SelectCity[] = {
     QMetaType::Void, 0x80000000 | 10,   11,
     QMetaType::Void, 0x80000000 | 10,   11,
     QMetaType::Void, 0x80000000 | 10,   11,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -134,6 +138,7 @@ void SelectCity::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 10: _t->on_listCourse_clicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
         case 11: _t->on_GetGroup_editingFinished(); break;
         case 12: _t->on_GetNameStudent_editingFinished(); break;
+        case 13: _t->on_Reset_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -177,13 +182,13 @@ int SelectCity::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 14;
     }
     return _id;
 }
