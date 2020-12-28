@@ -34,6 +34,11 @@ background-color: rgb(26, 37, 255);
 
 QPushButton#BackRatingsButton{
 background-color: rgb(26, 37, 255);
+}
+
+QTableView {
+	background-color: rgb(170, 0, 0);
+	alternate-background-color: rgb(0, 85, 0);
 }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
@@ -466,7 +471,7 @@ background-color: rgb(26, 37, 255);
      <widget class="QWidget" name="CourseWidget">
       <layout class="QGridLayout" name="gridLayout_9">
        <item row="0" column="0">
-        <layout class="QGridLayout" name="gridLayout_8" rowstretch="0,0,0" columnstretch="0,0,0">
+        <layout class="QGridLayout" name="gridLayout_8" rowstretch="0,0" columnstretch="0,0">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -651,6 +656,9 @@ background-color: rgb(26, 37, 255);
            <property name="sizeAdjustPolicy">
             <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
            </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
            <property name="textElideMode">
             <enum>Qt::ElideMiddle</enum>
            </property>
@@ -659,6 +667,9 @@ background-color: rgb(26, 37, 255);
            </property>
            <property name="gridStyle">
             <enum>Qt::NoPen</enum>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
            </property>
            <property name="wordWrap">
             <bool>false</bool>

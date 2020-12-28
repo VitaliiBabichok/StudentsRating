@@ -29,6 +29,8 @@ public:
     QJsonObject* obj;
     QSqlDatabase* db;
     QSqlQuery* query;
+
+    QString Data;
     void decEndExec(QJsonDocument* doc, QTcpSocket* socket);
     void LogProc(QTcpSocket* socket);
     void RegProc(QTcpSocket* socket);
@@ -45,6 +47,7 @@ public slots:
     void incomingConnection(qintptr socketDescriptor);
     void sockReady();
     void sockDisc();
+    void DataSend(QTcpSocket* socket, QString& data);
 
 };
 

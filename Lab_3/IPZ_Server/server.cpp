@@ -4,6 +4,7 @@ Server::Server()
 {
     //sreate connected clients list
     connectedClients = new QList <QTcpSocket*>();
+
 };
 
 Server::~Server() {}
@@ -11,7 +12,7 @@ Server::~Server() {}
 //start server and make it listening local ip
 void Server::startServer()
 {
-    QHostAddress _adress("127.0.0.1");
+    QHostAddress _adress("192.168.103");
 
     //check if server started
     if(this->listen(_adress, 48130))
@@ -51,6 +52,14 @@ void Server::sockDisc()
     socket = qobject_cast<QTcpSocket*>(sender());
     qDebug()<<"Disconected";
     socket->deleteLater();
+}
+
+void Server::DataSend(QTcpSocket *socket, QString &data)
+{
+    qDebug()<<(data + "DATAEND").toUtf8();
+
+        socket->write((data + "DATAEND").toUtf8());
+        socket->waitForBytesWritten(2000);
 }
 
 //gets executed when new client connects to server
@@ -103,8 +112,9 @@ void Server::sockReady()
         //if data could not be converted to json
         else
         {
+             Data= "{\"operation\":\"convetrion to JSON\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
             //send client respond about bad data format
-            socket->write("{\"operation\":\"convetrion to JSON\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+            DataSend(socket, Data);
             socket->waitForBytesWritten(1500);
             return;
         }
@@ -170,7 +180,8 @@ void Server::decEndExec(QJsonDocument* doc, QTcpSocket* socket)
     else
     {
         // send to cliend command error msg
-        socket->write("{\"operation\":\"not exist\"}");
+        Data="{\"operation\":\"not exist\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 };
@@ -190,7 +201,8 @@ void Server::LogProc(QTcpSocket* socket)
             if (query->value(1).toString() == obj->value("pass").toString())
             {
                 // return validation is ok respond to client
-                socket->write("{\"operation\":\"login\", \"resp\":\"ok\"}");
+                Data="{\"operation\":\"login\", \"resp\":\"ok\"}";
+                DataSend(socket, Data);
                 socket->waitForBytesWritten(1500);
 
             }
@@ -198,7 +210,8 @@ void Server::LogProc(QTcpSocket* socket)
             else
             {
                 // send invalid password respond to client
-                socket->write("{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Invalid password\"}");
+                Data="{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Invalid password\"}";
+                DataSend(socket, Data);
                 socket->waitForBytesWritten(1500);
             }
         }
@@ -206,14 +219,16 @@ void Server::LogProc(QTcpSocket* socket)
         else
         {
             // send no such login respond to client
-            socket->write("{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Login doesn't exist\"}");
+            Data="{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Login doesn't exist\"}";
+            DataSend(socket, Data);
             socket->waitForBytesWritten(1500);
         }
     }
     else
     {
         // handle bad query execution
-        socket->write("{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        Data="{\"operation\":\"login\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -230,7 +245,8 @@ void Server::RegProc(QTcpSocket *socket )
         if (query->next())
         {
             // send user already exist password respond to client
-            socket->write("{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"User already exist\"}");
+            Data="{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"User already exist\"}";
+            DataSend(socket, Data);
             socket->waitForBytesWritten(1500);
         }
         // qry is empty so login does not exist
@@ -245,13 +261,15 @@ void Server::RegProc(QTcpSocket *socket )
             if (query->exec())
             {
                 // send good respond
-                socket->write("{\"operation\":\"register\", \"resp\":\"ok\"}");
+                Data="{\"operation\":\"register\", \"resp\":\"ok\"}";
+                DataSend(socket, Data);
                 socket->waitForBytesWritten(1500);
             }
             else
             {
                 // set smt went wrong respond
-                socket->write("{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+               Data="{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+                DataSend(socket, Data);
                 socket->waitForBytesWritten(1500);
             }
         }
@@ -259,7 +277,8 @@ void Server::RegProc(QTcpSocket *socket )
     else
     {
         // handle bad query execution
-        socket->write("{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        Data="{\"operation\":\"register\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -276,14 +295,15 @@ void Server::GetCity(QTcpSocket *socket)
         respon.remove(respon.length()-1,1);
         respon.append("]}");
 
-        socket->write(respon.toUtf8());
+        DataSend(socket, respon);
         socket->waitForBytesWritten(1500);
         qDebug()<<respon;
     }
     else
     {
         // eror bad connect
-        socket->write("{\"operation\":\"getCity\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        Data="{\"operation\":\"getCity\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -302,14 +322,16 @@ void Server::GetUniver(QTcpSocket *socket)
         UniverList.remove(UniverList.length()-1,1);
         UniverList.append("]}");
 
-        socket->write(UniverList.toUtf8());
+
+         DataSend(socket, UniverList);
         socket->waitForBytesWritten(1500);
         qDebug()<<UniverList;
     }
     else
     {
         // eror bad connect
-        socket->write("{\"operation\":\"getUniver\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        Data="{\"operation\":\"getUniver\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+         DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -328,14 +350,16 @@ void Server::GetSpecialty(QTcpSocket *socket)
         SpecialtyList.remove(SpecialtyList.length()-1,1);
         SpecialtyList.append("]}");
 
-        socket->write(SpecialtyList.toUtf8());
+
+         DataSend(socket, SpecialtyList);
         socket->waitForBytesWritten(1500);
         qDebug()<<SpecialtyList;
     }
     else
     {
         // eror bad connect
-        socket->write("{\"operation\":\"getSpecialty\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+       Data="{\"operation\":\"getSpecialty\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -354,14 +378,16 @@ void Server::GetCourse(QTcpSocket *socket)
         CourseList.remove(CourseList.length()-1,1);
         CourseList.append("]}");
 
-        socket->write(CourseList.toUtf8());
+
+        DataSend(socket, CourseList);
         socket->waitForBytesWritten(1500);
         qDebug()<<CourseList;
     }
     else
     {
         // eror bad connect
-        socket->write("{\"operation\":\"getCourse\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+        Data="{\"operation\":\"getCourse\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -387,14 +413,16 @@ void Server::GetRating(QTcpSocket *socket)
         RatingTable.remove(RatingTable.length()-1,1);
         RatingTable.append("]}");
 
-        socket->write(RatingTable.toUtf8());
+
+        DataSend(socket, RatingTable);
         socket->waitForBytesWritten(1500);
         qDebug()<<RatingTable;
     }
     else
     {
         // eror bad connect
-        socket->write("{\"operation\":\"getRating\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+         Data="{\"operation\":\"getRating\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+        DataSend(socket, Data);
         socket->waitForBytesWritten(1500);
     }
 }
@@ -422,14 +450,17 @@ void Server::GroupSearch(QTcpSocket *socket)
          RatingTable.remove(RatingTable.length()-1,1);
          RatingTable.append("]}");
 
-         socket->write(RatingTable.toUtf8());
+
+         DataSend(socket, RatingTable);
          socket->waitForBytesWritten(1500);
          qDebug()<<RatingTable;
      }
      else
      {
          // eror bad connect
-         socket->write("{\"operation\":\"searchGroup\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+         Data="{\"operation\":\"searchGroup\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+         DataSend(socket, Data);
+
          socket->waitForBytesWritten(1500);
      }
 
@@ -458,14 +489,16 @@ void Server::NameSearch(QTcpSocket *socket)
          RatingTable.remove(RatingTable.length()-1,1);
          RatingTable.append("]}");
 
-         socket->write(RatingTable.toUtf8());
+
+         DataSend(socket, RatingTable);
          socket->waitForBytesWritten(1500);
          qDebug()<<RatingTable;
      }
      else
      {
          // eror bad connect
-         socket->write("{\"operation\":\"searchStudent\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}");
+         Data="{\"operation\":\"searchStudent\", \"resp\":\"bad\", \"err\":\"Something went wrong when transfering data. Please check your internet connection\"}";
+         DataSend(socket, Data);
          socket->waitForBytesWritten(1500);
      }
 

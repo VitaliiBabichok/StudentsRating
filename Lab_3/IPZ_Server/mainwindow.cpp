@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     //create and start server
     server = new Server();
     server->startServer();
+
 }
 
 MainWindow::~MainWindow()

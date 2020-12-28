@@ -184,53 +184,65 @@ void MainWindow::createSocket()
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisk()));
 
     //init socket with ip and port of server
-    socket->connectToHost("127.0.0.1", 48130);
+    socket->connectToHost("194.44.192.53", 48130);
 
     //wait for connection to be established
     socket->waitForConnected(1500);
+    qDebug()<<socket->state();
 }
 
 //reading from socket
 void MainWindow::sockReady()
 {
-    //wait for stable connection
-    if(socket->waitForConnected(1500))
-    {
-        //read all data
-        recievedData = socket->readAll();
 
-        //create new JSON doc
-        jsnDoc = new QJsonDocument();
+    if (socket->waitForConnected(1500))
+        {
+            recievedData += socket->readAll();
+        }
 
-        //convert recieved data to JSON format
+        else
+        {
+
+            QMessageBox::critical(this,"Error information","Can not read data from server: Connection failed. Please restert the app","Ok");
+            return;
+        }
+
+        QByteArray terminantWord = "DATAEND";
+        int recDatLength = recievedData.length();
+
+        for (int i = 1; i <= terminantWord.length(); ++i)
+        {
+            if (recievedData[recDatLength - i] != terminantWord[terminantWord.length() - i] || (recDatLength - i < 0))
+            {
+                return;
+            }
+        }
+
+        recievedData.resize(recievedData.length() - terminantWord.length());
         *jsnDoc = QJsonDocument::fromJson(recievedData, errJsn);
 
-        //get JSON object from JSON document
-
+        recievedData.clear();
         *obj = jsnDoc->object();
 
-        //chack if convertion eas successful
-        if(errJsn->errorString().toInt() == QJsonParseError::NoError)
+        if (errJsn->error == QJsonParseError::NoError)
         {
-            //do smt accordin to command from server
             decEndExec();
             return;
         }
-        //if data could not be converted to json
+
         else
         {
-            //show can not convert err msg box
-            QMessageBox::critical(this,"Error information","Something went wrong. Please restert the app","Ok");
+
+
+            QMessageBox::critical(this,"Error information","Can not convert data from server. Please restert the app","Ok");
             return;
         }
-    }
-    //if connecting failed
-    else
-    {
-        //show bad connection error
-        qDebug()<<"Can not read data from client: Connestion failed";
-        return;
-    }
+
+
+
+
+
+
 }
 
 bool MainWindow::TryReccon()
@@ -239,7 +251,7 @@ bool MainWindow::TryReccon()
     while (reconnRepl == 1)
     {
         // try to recconect to server
-        socket->connectToHost("127.0.0.1", 48130);
+        socket->connectToHost("194.44.192.53", 48130);
 
         // wait for connection to be established
         socket->waitForConnected(5000);

@@ -96,6 +96,11 @@ public:
 "\n"
 "QPushButton#BackRatingsButton{\n"
 "background-color: rgb(26, 37, 255);\n"
+"}\n"
+"\n"
+"QTableView {\n"
+"	background-color: rgb(170, 0, 0);\n"
+"	alternate-background-color: rgb(0, 85, 0);\n"
 "}"));
         gridLayout_4 = new QGridLayout(SelectCity);
         gridLayout_4->setObjectName(QString::fromUtf8("gridLayout_4"));
@@ -348,9 +353,11 @@ public:
         tableRatings->setLineWidth(1);
         tableRatings->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tableRatings->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+        tableRatings->setAlternatingRowColors(true);
         tableRatings->setTextElideMode(Qt::ElideMiddle);
         tableRatings->setShowGrid(false);
         tableRatings->setGridStyle(Qt::NoPen);
+        tableRatings->setSortingEnabled(true);
         tableRatings->setWordWrap(false);
         tableRatings->setCornerButtonEnabled(false);
         tableRatings->horizontalHeader()->setCascadingSectionResizes(false);
