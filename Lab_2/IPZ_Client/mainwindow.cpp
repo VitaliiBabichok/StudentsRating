@@ -190,7 +190,7 @@ void MainWindow::createSocket()
     connect(socket, SIGNAL(disconnected()), this, SLOT(sockDisk()));
 
     //init socket with ip and port of server
-    socket->connectToHost("127.0.0.1", 48130);
+    socket->connectToHost("178.137.161.32", 27000);
 
     //wait for connection to be established
     socket->waitForConnected(1500);
@@ -259,7 +259,7 @@ bool MainWindow::TryReccon()
     while (reconnRepl == 1)
     {
         // try to recconect to server
-        socket->connectToHost("127.0.0.1", 48130);
+        socket->connectToHost("178.137.161.32", 27000);
 
         // wait for connection to be established
         socket->waitForConnected(5000);
